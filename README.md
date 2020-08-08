@@ -4,6 +4,11 @@ On the Parent Container, set a class name as "resizer"
 
 
 Example Code: 
+
+    <div class="resizer">
+        <div class="testing"></div>
+    </div>
+    
     <style>
         .testing {
             width: 100%;
@@ -11,6 +16,5 @@ Example Code:
             background-color: red;
         }
     </style>
-    <div class="resizer">
-        <div class="testing"></div>
-    </div>
+    
+    
