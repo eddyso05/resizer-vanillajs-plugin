@@ -2,7 +2,7 @@
  * Resize 0.1.0
  *It is a scaling resizer without responsive much
  * 
- * Copyright 2014-2019 Vladimir Kharlampidi
+ * Copyright 2020 Eddy Siow
  *
  * Released under the MIT License
  *
