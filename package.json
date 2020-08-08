@@ -1,0 +1,25 @@
+{
+  "name": "scale_resizer",
+  "version": "0.1.0",
+  "description": "It is a scaling resizer without responsive much",
+  "main": "resizer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eddyso05/resizer.git"
+  },
+  "keywords": [
+    "resizer",
+    "scale",
+    "scaling",
+    "resizer"
+  ],
+  "author": "Eddy Siow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eddyso05/resizer/issues"
+  },
+  "homepage": "https://github.com/eddyso05/resizer#readme"
+}
