@@ -1,122 +1,139 @@
 /**
  * Resize 0.1.0
  *It is a scaling resizer without responsive much
- * 
+ *
  * Copyright 2020 Eddy Siow
  *
  * Released under the MIT License
  *
  */
 
-(function($) {
-    'use strict';
+(function ($) {
+  "use strict";
 
-   var defineResizer = function Resizer(){
-       var Resizer = function Resizer(el,options) {
-           this.el             = window;
-           this.options        = Object.assign({}, this.defaults, options);
-           this.bindEvents();
-       }
+  var defineResizer = function Resizer({ width, height }) {
+    var Resizer = function Resizer(el, options) {
+      this.el = window;
+      this.options = Object.assign({}, this.defaults, options);
+      this.bindEvents();
+    };
 
-       Resizer.prototype = {
-           defaults: {
-            oriWidth      : 1920,
-            oriHeight     : 1080,
-            scaleX        : window.innerWidth/1920,
-            scaleY        : window.innerHeight/1080,
-            scale2        : self.scaleX/2,
-            uniScale      : null,
-            uniScale0     : null,
-            screenWidth   : window.innerWidth,
-            screenHeight  : window.innerHeight,
-            uni1          : new Object(),
+    Resizer.prototype = {
+      defaults: {
+        oriWidth: width | 1920,
+        oriHeight: height | 1080,
+        scaleX: window.innerWidth / 1920,
+        scaleY: window.innerHeight / 1080,
+        scale2: self.scaleX / 2,
+        uniScale: null,
+        uniScale0: null,
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+        uni1: new Object(),
 
-            // default css value
-            transformOrigin : '0 0 0',
-            speedTransition : "1",
+        // default css value
+        transformOrigin: "0 0 0",
+        speedTransition: "1",
+      },
 
-           },
+      bindEvents: function bindEvents() {
+        var self = this;
+        self.scale();
+        self.resize();
+      },
 
-           bindEvents: function bindEvents(){
-             var self = this;
-             self.scale();
-             self.resize();
-           },
+      scale: function scale() {
+        var self = this;
 
-           scale: function scale(){
-            var self = this;
-            
-            var options = self.options;
+        var options = self.options;
 
-            options.scaleX=window.innerWidth/options.oriWidth;
-            options.scaleY=window.innerHeight/options.oriHeight;
-            options.scale2=window.innerWidth/2;
+        options.scaleX = window.innerWidth / options.oriWidth;
+        options.scaleY = window.innerHeight / options.oriHeight;
+        options.scale2 = window.innerWidth / 2;
 
-            if(window.innerHeight > window.innerWidth*options.oriHeight/options.oriWidth) {
-                options.uniScale  = options.scaleX;
-                options.uniScale0 = window.innerHeight/options.oriHeight;
-        
-            } else {
-                options.uniScale  = options.scaleY;
-                options.uniScale0 = window.innerWidth/options.oriWidth;
-            }
+        if (
+          window.innerHeight >
+          (window.innerWidth * options.oriHeight) / options.oriWidth
+        ) {
+          options.uniScale = options.scaleX;
+          options.uniScale0 = window.innerHeight / options.oriHeight;
+        } else {
+          options.uniScale = options.scaleY;
+          options.uniScale0 = window.innerWidth / options.oriWidth;
+        }
 
-            options.uni1.uniScale1=window.innerWidth/options.oriWidth;
-        
-            options.uni1.x=window.innerWidth/2-options.uni1.uniScale1*options.oriWidth/2;
-            options.uni1.y=window.innerWidth/2-options.uni1.uniScale1*options.oriHeight/2;
-        
-            options.uni1.height=options.oriHeight*options.uni1.uniScale1;
-            options.uni1.width=options.oriWidth*options.uni1.uniScale1;
+        options.uni1.uniScale1 = window.innerWidth / options.oriWidth;
 
-            self.transform();
-           },
+        options.uni1.x =
+          window.innerWidth / 2 -
+          (options.uni1.uniScale1 * options.oriWidth) / 2;
+        options.uni1.y =
+          window.innerWidth / 2 -
+          (options.uni1.uniScale1 * options.oriHeight) / 2;
 
-           defaultCss : function defaultCss(){
+        options.uni1.height = options.oriHeight * options.uni1.uniScale1;
+        options.uni1.width = options.oriWidth * options.uni1.uniScale1;
 
-            var className = document.querySelector(".resizer");
-            var self = this;
-            var options = self.options;
+        self.transform();
+      },
 
-            // left top center
-            className.style.left  = (window.innerWidth-1920*options.uniScale)/2 + 'px';
-            className.style.top   = (window.innerHeight-1080*options.uniScale)/2 + 'px';
+      defaultCss: function defaultCss() {
+        var className = document.querySelector(".resizer");
+        var self = this;
+        var options = self.options;
 
-            //default value
-            className.style.setProperty(" -webkit-transform-origin", options.transformOrigin);
-            className.style.setProperty("transform-origin", options.transformOrigin);
-            className.style.setProperty("width",  options.oriWidth + "px");
-            className.style.setProperty("height",  options.oriHeight + "px");
+        // left top center
+        className.style.left =
+          (window.innerWidth - 1920 * options.uniScale) / 2 + "px";
+        className.style.top =
+          (window.innerHeight - 1080 * options.uniScale) / 2 + "px";
 
-            className.style.webkitTransition =  options.speedTransition +"s all ease";
-            className.style.transition =  options.speedTransition +"s all ease";
-            className.style.position = "absolute";
-           },
+        //default value
+        className.style.setProperty(
+          " -webkit-transform-origin",
+          options.transformOrigin
+        );
+        className.style.setProperty(
+          "transform-origin",
+          options.transformOrigin
+        );
+        className.style.setProperty("width", options.oriWidth + "px");
+        className.style.setProperty("height", options.oriHeight + "px");
 
-           transform: function transform(){
-            var self = this;
-            var options = self.options;
+        className.style.webkitTransition =
+          options.speedTransition + "s all ease";
+        className.style.transition = options.speedTransition + "s all ease";
+        className.style.position = "absolute";
+      },
 
-            var className = document.querySelector(".resizer");
+      transform: function transform() {
+        var self = this;
+        var options = self.options;
 
-            className.style.transform        = "scale("+options.uniScale+","+options.uniScale+")"; 
-            className.style.msTransform      = "scale("+options.uniScale+","+options.uniScale+")";
-            className.style.webkitTransform  = "scale("+options.uniScale+","+options.uniScale+")";
-            className.style.MozTransform     = "scale("+options.uniScale+","+options.uniScale+")";
+        var className = document.querySelector(".resizer");
 
-            self.defaultCss();
-        },
+        className.style.transform =
+          "scale(" + options.uniScale + "," + options.uniScale + ")";
+        className.style.msTransform =
+          "scale(" + options.uniScale + "," + options.uniScale + ")";
+        className.style.webkitTransform =
+          "scale(" + options.uniScale + "," + options.uniScale + ")";
+        className.style.MozTransform =
+          "scale(" + options.uniScale + "," + options.uniScale + ")";
 
-        resize:function resize(){
-            var self = this;
-            window.onresize = function(event) {
-                self.scale();
-            };
-        },
-       }
-       return Resizer;
-   };
+        self.defaultCss();
+      },
 
-   var Resizer = defineResizer();
-   new Resizer(document.querySelector('resizer'));
- })();
+      resize: function resize() {
+        var self = this;
+        window.onresize = function (event) {
+          self.scale();
+        };
+      },
+    };
+    return Resizer;
+  };
+
+  var Resizer = defineResizer();
+  new Resizer(document.querySelector("resizer"));
+})();
